@@ -92,3 +92,19 @@ def index(request):
 
     return render(request, 'offer.html', context=context)
 
+
+from rest_framework.serializers import *
+from .models import *
+from rest_framework.exceptions import *
+from django.core.files.base import ContentFile
+import base64
+
+class LeadsSerializer(ModelSerializer):
+    class Meta:
+        model = Leads
+        fields = "__all__"
+
+class TargetSerializer(ModelSerializer):
+    class Meta:
+        model = Target
+        fields = "__all__"
