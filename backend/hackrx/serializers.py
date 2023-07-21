@@ -3,6 +3,7 @@ from .models import *
 from rest_framework.exceptions import *
 from django.core.files.base import ContentFile
 import base64
+from hackrx.models import *
 
 class LeadsSerializer(ModelSerializer):
     class Meta:

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from hackrx.models import *
 # Create your views here.
 
 import nltk
@@ -92,19 +92,28 @@ def index(request):
 
     return render(request, 'offer.html', context=context)
 
+class LeadsAPI(GenericViewSet, ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    serializer_class = LeadsSerializer
+    queryset = Leads.objects.all().exclude(state_progress=4).order_by("-id")
 
-from rest_framework.serializers import *
-from .models import *
-from rest_framework.exceptions import *
-from django.core.files.base import ContentFile
-import base64
+class MarketingCampaignsAPI(GenericViewSet, ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    serializer_class = MarketingCampaignsSerializer
+    queryset = MarketingCampaigns.objects.all()
 
-class LeadsSerializer(ModelSerializer):
-    class Meta:
-        model = Leads
-        fields = "__all__"
+    def create(self, request, *args, **kwargs):
+        context = {
+            'recipient': "HackRx 4.0",
+            'offer': "Easy EMI",
+            'call_to_action': "Click Now! Limited Time Offer",
+            'benefit': "Get 10% off on your first purchase",
+            'image_url': "https://scontent-maa2-2.xx.fbcdn.net/v/t1.6435-9/57104038_2300925359929883_1446565781524447232_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=dP2vICM1_78AX9AyfX2&_nc_ht=scontent-maa2-2.xx&oh=00_AfAhQbcJy1b9rtXqPeljSW6vgLN9iOph1Fy19TJqbW-4mA&oe=64E189AC",
+            'offer_url': "http://10.10.220.36:9999/advance_state_progress/?id=42"
+        }
 
-class TargetSerializer(ModelSerializer):
-    class Meta:
-        model = Target
-        fields = "__all__"
+        html_string = render_to_string('offer.html', context)
+
+        email = EmailMessage("Bajaj Easy EMI Option", html_string, "shambhavikhare.mahak@gmail.com", ("suyashsingh.stem@gmail.com",))
+        email.content_subtype = "html"
+        email.send()
+
+        return super().create(request, *args, **kwargs)
