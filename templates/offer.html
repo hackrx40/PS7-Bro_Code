@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .banner {
+        width: 100%;
+      }
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+      }
+      .offer {
+        background-color: #fafafa;
+        padding: 20px;
+        text-align: center;
+      }
+      .offer h2 {
+        margin: 0;
+        font-size: 24px;
+      }
+      .offer p {
+        margin: 10px 0;
+        font-size: 18px;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p>Dear {{ recipient }},</p>
+
+      <p>We are excited to announce a special offer just for you!</p>
+      <a href="{{ offer_url }}">
+        <img class="banner" src="{{ image_url }}" alt="Offer Banner">
+      </a>
+
+      <div class="offer">
+        <h2>{{ offer }}</h2>
+        <p>Take advantage of this limited-time offer and {{ call_to_action }}.</p>
+        <p>Don't miss out on this opportunity to {{ benefit }}.</p>
+        <a class="button" href="{{ offer_url }}">Learn More</a>
+      </div>
+
+      <p>Best regards,<br>Suyash Singh</p>
+    </div>
+  </body>
+</html>
