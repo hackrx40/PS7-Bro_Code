@@ -21,6 +21,7 @@ from tablib import Dataset
 from difflib import SequenceMatcher
 from django.http import HttpResponseRedirect
 import random
+import time
 
 def similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -141,6 +142,8 @@ def download_phantom_buster():
     from selenium.webdriver.support import expected_conditions as EC
     from selenium.webdriver.chrome.options import Options as ChromeOptions
 
+    time.sleep(30)
+
     download_dir = r'C:\Users\HP\Desktop\HackRx'
     options = ChromeOptions()
     options.add_argument("--headless=new")
@@ -154,7 +157,6 @@ def download_phantom_buster():
     driver = webdriver.Chrome(options=options)
 
     driver.get('https://phantombuster.com/login')
-
     time.sleep(5)
 
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Email'][@type='email']")))
@@ -246,13 +248,14 @@ class MarketingCampaignsAPI(GenericViewSet, ListModelMixin, CreateModelMixin, Re
     queryset = MarketingCampaigns.objects.all()
 
     def create(self, request, *args, **kwargs):
+        print(request.data)
         context = {
             'recipient': "HackRx 4.0",
             'offer': "Easy EMI",
             'call_to_action': "Click Now! Limited Time Offer",
             'benefit': "Get 10% off on your first purchase",
             'image_url': "https://scontent-maa2-2.xx.fbcdn.net/v/t1.6435-9/57104038_2300925359929883_1446565781524447232_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=dP2vICM1_78AX9AyfX2&_nc_ht=scontent-maa2-2.xx&oh=00_AfAhQbcJy1b9rtXqPeljSW6vgLN9iOph1Fy19TJqbW-4mA&oe=64E189AC",
-            'offer_url': "http://10.10.220.36:9999/advance_state_progress/?id=42"
+            'offer_url': "http://10.10.220.36:9999/advance_state_progress/?email=suyashsingh.stem@gmail.com"
         }
 
         html_string = render_to_string('offer.html', context)
@@ -357,7 +360,7 @@ class LinkedinProfileScraper(GenericAPIView):
         industry = request.data.get("industry", None)
         company_size = request.data.get("company_size", None)
         function = request.data.get("function", None)
-        time = request.data.get("time", None)
+        select_time = request.data.get("time", None)
         date = request.data.get("date", None)
 
         import gspread 
@@ -368,7 +371,7 @@ class LinkedinProfileScraper(GenericAPIView):
         wks = sh.worksheet("Sheet1")
 
         # Define the data to be written
-        data = [target_url, title, company_name, keywords, institution, types_of_services, age_category, industry, company_size, function, time, date]
+        data = [target_url, title, company_name, keywords, institution, types_of_services, age_category, industry, company_size, function, date, select_time]
 
         # Write the data to the sheet
         row_index = 2
@@ -378,13 +381,14 @@ class LinkedinProfileScraper(GenericAPIView):
                 wks.update_cell(row_index, 1, value)
                 row_index += 1
         
-        time.sleep(10)
 
         state = State.objects.all().count()
         if state == 0:
             state = State.objects.create(state=3)
         else:
             state = State.objects.all().first()
+
+        time.sleep(10)
 
         if "ceo" in keywords.lower():
             file_path = r"C:\Users\HP\Desktop\HackRx\output_1.csv"
@@ -407,8 +411,9 @@ class LinkedinProfileScraper(GenericAPIView):
             #     result = lead_resource.import_data(dataset, dry_run=False)
             try:
                 import_leads_from_csv(file_path)
-                return HttpResponseRedirect("http://10.10.220.36:9999/data-enrich/")
-            except:
+                requests.get("http://10.10.220.36:9999/data-enrich/")
+                return Response({"status": "Scraper successfully ran"})
+            except ZeroDivisionError:
                 return Response({"status": "Not Imported Scraper"},\
                         status=status.HTTP_400_BAD_REQUEST)
 
@@ -437,7 +442,8 @@ class LinkedinProfileScraper(GenericAPIView):
             #         status=status.HTTP_400_BAD_REQUEST)
             try:
                 import_leads_from_csv(file_path)
-                return HttpResponseRedirect("http://10.10.220.36:9999/data-enrich/")
+                requests.get("http://10.10.220.36:9999/data-enrich/")
+                return Response({"status": "Scraper successfully ran"})
             except ZeroDivisionError:
                 return Response({"status": "Not Imported Scraper"},\
                         status=status.HTTP_400_BAD_REQUEST)
@@ -461,13 +467,13 @@ class LinkedinProfileScraper(GenericAPIView):
 
             try:
                 import_leads_from_csv(file_path)
-                return HttpResponseRedirect("http://10.10.220.36:9999/data-enrich/")
-            except:
+                requests.get("http://10.10.220.36:9999/data-enrich/")
+                return Response({"status": "Scraper successfully ran"})
+            except ZeroDivisionError:
                 return Response({"status": "Not Imported Scraper"},\
                         status=status.HTTP_400_BAD_REQUEST)
         else:
-            import requests
-
+            file_path = r"C:\Users\HP\Desktop\HackRx\result.csv"
             url = "https://api.phantombuster.com/api/v2/agents/launch"
 
             payload = { "id": "3665147201408784" }
@@ -480,11 +486,19 @@ class LinkedinProfileScraper(GenericAPIView):
 
             download_phantom_buster()
 
+            try:
+                import_leads_from_csv(file_path)
+                requests.get("http://10.10.220.36:9999/data-enrich/")
+                return Response({"status": "Scraper successfully ran"})
+            except ZeroDivisionError:
+                return Response({"status": "Not Imported Scraper"},\
+                        status=status.HTTP_400_BAD_REQUEST)
+
 class AdvanceStateProgressAPI(GenericAPIView):
     
     def get(self, request, *args, **kwargs):
-        id = self.request.query_params["id"]
-        Leads.objects.filter(id=id).update(state_progress=2)
+        email = self.request.query_params["email"]
+        Leads.objects.filter(email=email).update(state_progress=2)
         return redirect('https://www.bajajfinserv.in/webform/emicard/login?utm_source=googlesearch_mktg&utm_medium=cpc&utm_campaign=wpb_iemi_190723_insta_emi_search_tof_jan07_148030749114_apply%20bajaj%20emi%20card&gclid=Cj0KCQjw2eilBhCCARIsAG0Pf8sXSzIJZQ938ktv0bX7aNvUNQRg0RsgXcJcOpYEL-7TS1hufcLE99gaAl_EEALw_wcB')
     
 class EnrichLeads(GenericAPIView):
@@ -606,14 +620,14 @@ class LeadsResourceAdmin(resources.ModelResource):
         model = Leads
 
 
-def export(request):
-    person_resource = DetailedLeadsResourceAdmin()
-    dataset = person_resource.export()
-    response = HttpResponse(dataset.csv, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="result_2.csv"'
+# def export(request):
+#     person_resource = DetailedLeadsResourceAdmin()
+#     dataset = person_resource.export()
+#     response = HttpResponse(dataset.csv, content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="result_2.csv"'
 
-    # person_resource = LeadsResourceAdmin()
-    # dataset = person_resource.export()
-    # response = HttpResponse(dataset.csv, content_type='text/csv')
-    # response['Content-Disposition'] = 'attachment; filename="data_enrichment_2.csv"'
-    return response
+#     # person_resource = LeadsResourceAdmin()
+#     # dataset = person_resource.export()
+#     # response = HttpResponse(dataset.csv, content_type='text/csv')
+#     # response['Content-Disposition'] = 'attachment; filename="data_enrichment_2.csv"'
+#     return response

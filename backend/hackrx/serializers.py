@@ -13,7 +13,7 @@ class LeadsSerializer(ModelSerializer):
     detailed_leads = SerializerMethodField()
     class Meta:
         model = Leads
-        fields = ['id', 'profileUrl', 'fullName', 'firstName', 'lastName', 'profileImageUrl', 'currentJob', 'connectionDegree', 'job', 'location', 'sharedConnections', 'url', 'name', 'query', 'category', 'timestamp', 'additionalInfo', 'pastJob', 'detailed_leads', "state_progress", "lead_score"]
+        fields = ['id', 'profileUrl', 'fullName', 'firstName', 'lastName', 'profileImageUrl', 'currentJob', 'connectionDegree', 'job', 'location', 'sharedConnections', 'url', 'name', 'query', 'category', 'timestamp', 'additionalInfo', 'pastJob', 'detailed_leads', "state_progress", "lead_score", "email"]
 
     def get_detailed_leads(self, obj):
         return DetailedLeadsSerializer(obj.detailed_lead).data
@@ -23,25 +23,32 @@ class TargetSerializer(ModelSerializer):
         model = Target
         fields = "__all__"
 
+        extra_kwargs = {
+            "logo": {"required": False}
+        }
+
 class MarketingTemplatesSerializer(ModelSerializer):
     class Meta:
         model = MarketingTemplates
         fields = "__all__"
+        extra_kwargs = {
+            "target": {"required": False}
+        }
     
     def create(self, validated_data):
         validated_data["template_html"] = self.initial_data["file"].read()
         return super().create(validated_data)
 
 class MarketingCampaignsSerializer(ModelSerializer):
-    target = TargetSerializer()
+    target = TargetSerializer(required=False)
     marketing_templates = SerializerMethodField()
     class Meta:
         model = MarketingCampaigns
         fields = ['id', 'impressions', 'total_likes', 'percentage_change', 'target', 'duration', 'marketing_templates', "templates"]
     
     def create(self, validated_data):
-        target = validated_data.pop("target")
         try:
+            target = validated_data.pop("target")
             target, created = Target.objects.get_or_create(**target)
         except:
             target = Target.objects.get(target_name="gmail")

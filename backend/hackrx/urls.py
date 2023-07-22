@@ -27,7 +27,7 @@ urlpatterns = [
     path("schema/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="schema-docs"),
     path("delete-leads/", DeleteAllLeads.as_view(), name="delete-all-leads"),
     path("data-enrich/", EnrichLeads.as_view(), name="data-enrich"),
-    path("export/",export,name="export")
+    # path("export/",export,name="export")
 ]
 
 urlpatterns += router.urls

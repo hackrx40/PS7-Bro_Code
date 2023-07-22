@@ -137,24 +137,24 @@ class Target(models.Model):
 
 
 class MarketingCampaigns(models.Model):
-    impressions = models.CharField(max_length=100, default="")
-    total_likes = models.CharField(max_length=100, default="")
-    percentage_change = models.CharField(max_length=100, default="")
-    target = models.ForeignKey(Target, on_delete=models.CASCADE, default="")
-    duration = models.CharField(max_length=100, default="")
+    impressions = models.CharField(max_length=100, default="", blank=True)
+    total_likes = models.CharField(max_length=100, default="", blank=True)
+    percentage_change = models.CharField(max_length=100, default="", blank=True)
+    target = models.ForeignKey(Target, on_delete=models.CASCADE, default="", blank=True, null=True)
+    duration = models.CharField(max_length=100, default="", blank=True)
     templates = models.ForeignKey('MarketingTemplates', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self) -> str:
         return f"{self.target} Campaign"
 
 class MarketingTemplates(models.Model):
-    template_name = models.CharField(max_length=100, default="")
-    open_rate = models.CharField(max_length=100, default="")
-    click_rate = models.CharField(max_length=100, default="")
-    reply_rate = models.CharField(max_length=100, default="")
-    meeting_rate = models.CharField(max_length=100, default="")
-    no_response = models.CharField(max_length=100, default="")
-    bounce_rate = models.CharField(max_length=100, default="")
+    template_name = models.CharField(max_length=100, default="", blank=True)
+    open_rate = models.CharField(max_length=100, default="", blank=True)
+    click_rate = models.CharField(max_length=100, default="", blank=True)
+    reply_rate = models.CharField(max_length=100, default="", blank=True)
+    meeting_rate = models.CharField(max_length=100, default="", blank=True)
+    no_response = models.CharField(max_length=100, default="", blank=True)
+    bounce_rate = models.CharField(max_length=100, default="", blank=True)
 
     def __str__(self) -> str:
         return f"Template {self.id}"
