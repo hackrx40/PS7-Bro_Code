@@ -1,0 +1,769 @@
+openapi: 3.0.3
+info:
+  title: HackRx 4.0
+  version: 1.0.0
+  description: Sales Funnel API
+paths:
+  /:
+    get:
+      operationId: root_retrieve
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /campaign-template/:
+    get:
+      operationId: campaign_template_list
+      tags:
+      - campaign-template
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MarketingTemplates'
+          description: ''
+    post:
+      operationId: campaign_template_create
+      tags:
+      - campaign-template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingTemplates'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MarketingTemplates'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MarketingTemplates'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingTemplates'
+          description: ''
+  /campaign-template/{id}/:
+    get:
+      operationId: campaign_template_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing templates.
+        required: true
+      tags:
+      - campaign-template
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingTemplates'
+          description: ''
+    put:
+      operationId: campaign_template_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing templates.
+        required: true
+      tags:
+      - campaign-template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingTemplates'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MarketingTemplates'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MarketingTemplates'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingTemplates'
+          description: ''
+    patch:
+      operationId: campaign_template_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing templates.
+        required: true
+      tags:
+      - campaign-template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMarketingTemplates'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMarketingTemplates'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMarketingTemplates'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingTemplates'
+          description: ''
+    delete:
+      operationId: campaign_template_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing templates.
+        required: true
+      tags:
+      - campaign-template
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /campaigns/:
+    get:
+      operationId: campaigns_list
+      tags:
+      - campaigns
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MarketingCampaigns'
+          description: ''
+    post:
+      operationId: campaigns_create
+      tags:
+      - campaigns
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingCampaigns'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MarketingCampaigns'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MarketingCampaigns'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingCampaigns'
+          description: ''
+  /campaigns/{id}/:
+    get:
+      operationId: campaigns_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing campaigns.
+        required: true
+      tags:
+      - campaigns
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingCampaigns'
+          description: ''
+    put:
+      operationId: campaigns_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing campaigns.
+        required: true
+      tags:
+      - campaigns
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingCampaigns'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MarketingCampaigns'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MarketingCampaigns'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingCampaigns'
+          description: ''
+    patch:
+      operationId: campaigns_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing campaigns.
+        required: true
+      tags:
+      - campaigns
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMarketingCampaigns'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMarketingCampaigns'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMarketingCampaigns'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarketingCampaigns'
+          description: ''
+    delete:
+      operationId: campaigns_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this marketing campaigns.
+        required: true
+      tags:
+      - campaigns
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /create-fake-leads/:
+    post:
+      operationId: create_fake_leads_create
+      tags:
+      - create-fake-leads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFakeLeads'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateFakeLeads'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateFakeLeads'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /create-fake-marketing-campaigns/:
+    get:
+      operationId: create_fake_marketing_campaigns_retrieve
+      tags:
+      - create-fake-marketing-campaigns
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /create-fake-marketing-template/:
+    post:
+      operationId: create_fake_marketing_template_create
+      tags:
+      - create-fake-marketing-template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFakeMarketingTemplates'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateFakeMarketingTemplates'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateFakeMarketingTemplates'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /leads/:
+    get:
+      operationId: leads_list
+      tags:
+      - leads
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Leads'
+          description: ''
+    post:
+      operationId: leads_create
+      tags:
+      - leads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leads'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Leads'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Leads'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leads'
+          description: ''
+  /leads/{id}/:
+    get:
+      operationId: leads_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this leads.
+        required: true
+      tags:
+      - leads
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leads'
+          description: ''
+    put:
+      operationId: leads_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this leads.
+        required: true
+      tags:
+      - leads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Leads'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Leads'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Leads'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leads'
+          description: ''
+    patch:
+      operationId: leads_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this leads.
+        required: true
+      tags:
+      - leads
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLeads'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLeads'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLeads'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Leads'
+          description: ''
+    delete:
+      operationId: leads_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this leads.
+        required: true
+      tags:
+      - leads
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    CreateFakeLeads:
+      type: object
+      properties:
+        fake_leads:
+          type: integer
+      required:
+      - fake_leads
+    CreateFakeMarketingTemplates:
+      type: object
+      properties:
+        fake_templates:
+          type: integer
+      required:
+      - fake_templates
+    Leads:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        industry:
+          type: string
+          nullable: true
+          maxLength: 100
+        company_size:
+          type: string
+          nullable: true
+          maxLength: 100
+        company_name:
+          type: string
+          nullable: true
+          maxLength: 100
+        function:
+          type: string
+          nullable: true
+          maxLength: 100
+        title:
+          type: string
+          nullable: true
+          maxLength: 100
+        company_names:
+          type: string
+          nullable: true
+          maxLength: 100
+        keywords:
+          type: string
+          nullable: true
+          maxLength: 200
+        institute:
+          type: string
+          nullable: true
+          maxLength: 200
+      required:
+      - id
+    MarketingCampaigns:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        impressions:
+          type: string
+          nullable: true
+          maxLength: 100
+        total_likes:
+          type: string
+          nullable: true
+          maxLength: 100
+        percentage_change:
+          type: string
+          nullable: true
+          maxLength: 100
+        duration:
+          type: string
+          nullable: true
+          maxLength: 100
+        target:
+          type: integer
+          nullable: true
+        templates:
+          type: integer
+          nullable: true
+      required:
+      - id
+    MarketingTemplates:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        open_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        click_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        reply_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        meeting_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        no_response:
+          type: string
+          nullable: true
+          maxLength: 100
+        bounce_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+      required:
+      - id
+    PatchedLeads:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          nullable: true
+          maxLength: 254
+        industry:
+          type: string
+          nullable: true
+          maxLength: 100
+        company_size:
+          type: string
+          nullable: true
+          maxLength: 100
+        company_name:
+          type: string
+          nullable: true
+          maxLength: 100
+        function:
+          type: string
+          nullable: true
+          maxLength: 100
+        title:
+          type: string
+          nullable: true
+          maxLength: 100
+        company_names:
+          type: string
+          nullable: true
+          maxLength: 100
+        keywords:
+          type: string
+          nullable: true
+          maxLength: 200
+        institute:
+          type: string
+          nullable: true
+          maxLength: 200
+    PatchedMarketingCampaigns:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        impressions:
+          type: string
+          nullable: true
+          maxLength: 100
+        total_likes:
+          type: string
+          nullable: true
+          maxLength: 100
+        percentage_change:
+          type: string
+          nullable: true
+          maxLength: 100
+        duration:
+          type: string
+          nullable: true
+          maxLength: 100
+        target:
+          type: integer
+          nullable: true
+        templates:
+          type: integer
+          nullable: true
+    PatchedMarketingTemplates:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        open_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        click_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        reply_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        meeting_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+        no_response:
+          type: string
+          nullable: true
+          maxLength: 100
+        bounce_rate:
+          type: string
+          nullable: true
+          maxLength: 100
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
